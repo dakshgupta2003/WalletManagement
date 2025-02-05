@@ -1,0 +1,226 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36" version="26.0.10">
+  <diagram name="Page-1" id="4kRVjV26f8ICk5dHGKJP">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-2" value="User Wallet Schema" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-700" y="530" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-3" value="userId/walletId: unique ID, Long&lt;div&gt;&lt;div&gt;userPhone: String&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;balance: Double&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="rJJKrIxKB9NaMxkDg09q-2">
+          <mxGeometry y="30" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-7" value="Money Transfer Schema" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-340" y="520" width="250" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-8" value="txnId : String , Unique ID&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;amount: Double&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;payerWalletId: Long&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;payeeWalletId: Long&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;status: Enum (PENDING, SUCCESS, FAILED)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;timeStamp: LocalDateTime&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="rJJKrIxKB9NaMxkDg09q-7">
+          <mxGeometry y="30" width="250" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-9" value="API to create user (/api/v1/users)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-700" y="480" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-10" value="API for P2P Txn (/api/v1/users/transaction)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-340" y="480" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-14" value="API for Transaction Status&lt;div&gt;(Enter your txnId and it will fetch the corresponding txn to you)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-695" y="740" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-23" value="Frontend" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-710" y="200" width="80" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-24" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-620" y="230" as="sourcePoint" />
+            <mxPoint x="-120" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-25" value="Bearer Token&lt;br&gt;&lt;div&gt;Authentication Filter&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-370" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-26" value="User Controller&lt;div&gt;(/users)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-27" value="Auth Controller&lt;div&gt;(/login)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-160" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-28" value="POST (/login) , content-type: application/json&lt;div&gt;email/username, password&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-540" y="190" width="330" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-29" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-120" y="270" as="sourcePoint" />
+            <mxPoint x="-620" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-30" value="authToken : Bearer xxxyyyzzz" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-480" y="240" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-32" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-620" y="310" as="sourcePoint" />
+            <mxPoint x="-360" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-33" value="/users&lt;div&gt;authToken: Bearer xxxyyyzzz&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-610" y="270" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-34" value="Check&amp;nbsp;&lt;div&gt;validity&amp;nbsp;&lt;/div&gt;&lt;div&gt;and role based authorization&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-360" y="280" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-36" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-270" y="310" as="sourcePoint" />
+            <mxPoint x="160" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-37" value="Forward" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-150" y="280" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-38" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="410" as="sourcePoint" />
+            <mxPoint x="-620" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-39" value="Response with information" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-370" y="380" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-40" value="" style="endArrow=none;html=1;rounded=0;exitX=0.429;exitY=-0.033;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-115.47000000000003" y="280" as="sourcePoint" />
+            <mxPoint x="-115.5" y="200.99" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-41" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="420" as="sourcePoint" />
+            <mxPoint x="170" y="280.99" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-42" value="API for P2P Txn Summary (/api/v1/users/transaction/walletId?page=x&amp;amp;size=y)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="480" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rJJKrIxKB9NaMxkDg09q-43" value="Fetch all transactions for the walletId mentioned in&amp;nbsp; @PathVariable in a pagination way." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5" y="565" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-1" value="Frontend&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-790" y="880" width="80" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-2" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-700" y="930" as="sourcePoint" />
+            <mxPoint x="-600" y="930" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-670" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-3" value="Controller&lt;div&gt;(Presentation Layer)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-4" value="Service Layer&lt;div&gt;(Business logic)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-290" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-5" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-460" y="930" as="sourcePoint" />
+            <mxPoint x="-300" y="930" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-446" y="929.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-6" value="Repositories&lt;div&gt;(Dao Layer)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-290" y="1095" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-7" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-230.5" y="970" as="sourcePoint" />
+            <mxPoint x="-230" y="1080" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-230.5" y="990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-8" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-230.5" y="1235" as="sourcePoint" />
+            <mxPoint x="-230.5" y="1245" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-230.5" y="1165" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-9" value="User Controller" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-610" y="980" width="220" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-10" value="Defines all HTTP Request Mappings&lt;div&gt;&lt;br&gt;&lt;div&gt;1. POST&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. GET.&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users/{userId}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. PUT.&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. DELETE&amp;nbsp; &amp;nbsp;/api/v1/users/{userId}&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-9">
+          <mxGeometry y="30" width="220" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-11" value="UserServiceImpl" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-140" y="840" width="270" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-12" value="Defines all methods&amp;nbsp; &amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;* UserModel is a POJO&lt;/span&gt;&lt;div&gt;&lt;br&gt;&lt;div&gt;1. addUser (UserModel) --&amp;gt; and push to kafka&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/div&gt;&lt;div&gt;2. getAllUsers()&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; getSingleUser(walletId)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. updateUser(UserModel)&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. deleteUser(walletId)&amp;nbsp;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-11">
+          <mxGeometry y="30" width="270" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-13" value="UserRepository" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-130" y="1080" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-14" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;JPA Repository to map UserModel as a table in database&lt;/div&gt;&lt;div&gt;It takes 2 arguments &amp;lt;Entity, Primary Key&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-13">
+          <mxGeometry y="30" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-15" value="Request" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="890" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-16" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-610" y="950" as="sourcePoint" />
+            <mxPoint x="-700" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-17" value="Response" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="950" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-18" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-250" y="1240" as="sourcePoint" />
+            <mxPoint x="-250" y="1170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-19" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-250" y="1080" as="sourcePoint" />
+            <mxPoint x="-250" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-20" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-300" y="950" as="sourcePoint" />
+            <mxPoint x="-460" y="949" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-21" value="Database&lt;div&gt;(MySql)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-290" y="1250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-43" value="Transaction Controller" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-700" y="1200" width="350" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-44" value="Defines all HTTP Request Mappings&lt;div&gt;&lt;br&gt;&lt;div&gt;1. POST&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users/transaction&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. GET.&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /api/v1/users/transaction/walletId?page=x&amp;amp;size=y&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-43">
+          <mxGeometry y="30" width="350" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-45" value="TransactionServiceImpl" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="840" width="420" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-46" value="Defines all methods&amp;nbsp; &amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;* TransactionModel is a POJO&lt;/span&gt;&lt;div&gt;&lt;br&gt;&lt;div&gt;1. TransferFunds (payeePhone, payerPhone, amount) --&amp;gt; and push to kafka&amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;2. getAllTransactions (walletId, page, size)&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-45">
+          <mxGeometry y="30" width="420" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-47" value="TransactionModel" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1080" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="-2KPoTrqfxy-Z4by80qO-48" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;JPA Repository to map TransactionModel as a table in database&lt;/div&gt;&lt;div&gt;It takes 2 arguments &amp;lt;Entity, Primary Key&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-2KPoTrqfxy-Z4by80qO-47">
+          <mxGeometry y="30" width="250" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
