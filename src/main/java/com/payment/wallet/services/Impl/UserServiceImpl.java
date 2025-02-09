@@ -81,7 +81,24 @@ public class UserServiceImpl implements UserService {
             }
 
             // Save the new user
-            return userRepository.save(user);
+            userRepository.save(user);
+
+            if(kafkaProducerService !=null){
+                try {
+                    // Convert user to JSON
+                    String userObj = objectMapper.writeValueAsString(user);
+                    // Push user creation event to Kafka
+                    kafkaProducerService.userPushInKafka(userObj);
+                    logger.info("Published to Kafka: {}", userObj);
+                } catch (Exception e) {
+                    logger.error("Failed to publish to Kafka: {}", e.getMessage());
+                    logger.error("User creation event not published to Kafka");
+                }
+            }
+
+            logger.info("user added succesfully with ID: {}", user.getWalletId());
+            return user;
+
         } catch (Exception e) {
             logger.error("Unexpected error while adding user: {}", e.getMessage());
             throw e;

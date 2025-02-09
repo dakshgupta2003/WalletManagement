@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walletId;
     
     @NotNull
