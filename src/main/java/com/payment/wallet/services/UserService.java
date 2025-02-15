@@ -1,7 +1,9 @@
 package com.payment.wallet.services;
 
+import com.payment.wallet.models.ESUserModel;
 import com.payment.wallet.models.UserModel;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -14,4 +16,5 @@ public interface UserService {
     UserModel addUser(UserModel user);
     ResponseEntity<?> updateUser(Long walletId, Map<String, Object> fieldMap);
     ResponseEntity<?> deleteUser(Long walletId);
+    List<ESUserModel> fuzzySearch(Long walletId, String phone, Double balance, int page, int size);
 }

@@ -1,8 +1,10 @@
 package com.payment.wallet.controllers;
 
+import com.payment.wallet.models.ESUserModel;
 import com.payment.wallet.models.UserModel;
 import com.payment.wallet.services.UserService;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,17 @@ public class UserController {
     @DeleteMapping("/{walletId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long walletId){
         return this.userService.deleteUser(walletId);
+    }
+
+    @GetMapping("/fuzzy/{walletId}")
+    public List<ESUserModel> fuzzySearch(
+            @PathVariable Long walletId,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) Double balance,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return this.userService.fuzzySearch(walletId, phone, balance, page, size);
     }
 
 }

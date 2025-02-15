@@ -21,11 +21,11 @@ public class FlinkKafkaPipeline {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 
         // initializes the flink runtime env , required for defining sources, transformations, sinks
 
-        Properties kafkaProperties = new Properties();
+        Properties kafkaProps = new Properties();
         
         {
-            kafkaProperties.setProperty("bootstrap.servers", "localhost:9092");
-            kafkaProperties.setProperty("group.id", "flink-kafka-consumer");
+            kafkaProps.setProperty("bootstrap.servers", "localhost:9092");
+            kafkaProps.setProperty("group.id", "flink-kafka-consumer");
         }
         // bootstrap.servers -> kafka broker address
         // group.id -> consumer group for flink
@@ -75,8 +75,6 @@ public class FlinkKafkaPipeline {
             return transaction;
         });
 
-
-
         //kafka sink for processed data streams
         KafkaSink<String> userSink= KafkaSink.<String>builder()
             .setBootstrapServers("localhost:9092")
@@ -107,7 +105,5 @@ public class FlinkKafkaPipeline {
         // execute flink job
         env.execute("Flink Kafka Pipeline");
     }
-
-    
 
 }

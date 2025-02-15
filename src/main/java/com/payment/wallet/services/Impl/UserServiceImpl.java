@@ -1,23 +1,43 @@
 package com.payment.wallet.services.Impl;
 
+import com.payment.wallet.models.ESUserModel;
 import com.payment.wallet.models.UserModel;
 import com.payment.wallet.repositories.UserRepository;
 import com.payment.wallet.services.KafkaProducerService;
 import com.payment.wallet.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.util.ReflectionUtils;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.dao.DataAccessException;
+import org.springframework.util.ReflectionUtils;
+
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.FuzzyQueryBuilder;
+import org.elasticsearch.index.query.RangeQueryBuilder;
+
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+import org.springframework.data.elasticsearch.core.SearchHitSupport;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import co.elastic.clients.json.JsonData;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +46,9 @@ public class UserServiceImpl implements UserService {
     private final KafkaProducerService kafkaProducerService;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final ObjectMapper objectMapper;
+
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, KafkaProducerService kafkaProducerService) {
@@ -160,5 +183,44 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    
+
+    public List<ESUserModel> fuzzySearch(Long walletId, String phone, Double balance, int page, int size) {
+        try {
+            BoolQuery.Builder boolQuery = new BoolQuery.Builder();
+
+//            // WalletId must be an exact match
+//            boolQuery.filter(q -> q.term(t -> t.field("walletId").value(walletId)));
+
+            // Fuzzy search for phone number
+            if (phone != null && !phone.isEmpty()) {
+                boolQuery.must(q -> q.fuzzy(f -> f.field("userPhone").value(phone).fuzziness("AUTO")));
+            }
+
+            // Balance range query
+            if (balance != null) {
+                boolQuery.must(q -> q.range(r -> r.field("balance")
+                        .gte(JsonData.of(balance - 100))
+                        .lte(JsonData.of(balance + 100))));
+            }
+
+            NativeQuery searchQuery = NativeQuery.builder()
+                    .withQuery(boolQuery.build()._toQuery())
+                    .withPageable(PageRequest.of(page, size))
+                    .build();
+
+            SearchHits<ESUserModel> searchHits = elasticsearchTemplate.search(searchQuery, ESUserModel.class);
+
+            return elasticsearchTemplate.search(searchQuery, ESUserModel.class)
+                    .getSearchHits()
+                    .stream()
+                    .map(hit -> hit.getContent())
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            logger.error("Error during fuzzy search: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+
 }

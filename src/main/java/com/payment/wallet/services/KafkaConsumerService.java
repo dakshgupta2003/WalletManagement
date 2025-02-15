@@ -25,7 +25,7 @@ public class KafkaConsumerService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user-creation", groupId = "user-group")
+    @KafkaListener(topics = "user-creation-processed", groupId = "user-group")
     public void userConsumeInES(String userJson){
         try {
             ESUserModel esUserModel = objectMapper.readValue(userJson, ESUserModel.class);
@@ -37,7 +37,7 @@ public class KafkaConsumerService {
         }
     }
 
-    @KafkaListener(topics = "fund-transfer", groupId = "transaction-group")
+    @KafkaListener(topics = "fund-transfer-processed", groupId = "transaction-group")
     public void transactionConsumeInES(String transactionJson){
         try {
             ESTransactionModel esTransactionModel = objectMapper.readValue(transactionJson, ESTransactionModel.class);
