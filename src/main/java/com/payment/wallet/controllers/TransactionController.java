@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -28,7 +28,7 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping("/transaction")
+    @PostMapping("/transfer-fund")
     public ResponseEntity<?> transferFunds(@RequestBody Map<String, Object> request) {
         try {
             String payerPhone = (String) request.get("payerPhone");
@@ -63,7 +63,7 @@ public class TransactionController {
         }
     }
 
-    @GetMapping("/transaction/{walletId}")
+    @GetMapping("/get-all-transactions/{walletId}")
     public ResponseEntity<?> getAllTransactions(@PathVariable Long walletId, 
     @RequestParam(defaultValue = "1") int page, 
     @RequestParam(defaultValue = "10") int size){
@@ -80,7 +80,7 @@ public class TransactionController {
         
     }
 
-    @GetMapping("/transaction/status/{transactionId}")
+    @GetMapping("/status/{transactionId}")
     public ResponseEntity<?> getTransactionStatus(@PathVariable String transactionId){
         try {
             return this.transactionService.getTransactionStatus(transactionId);

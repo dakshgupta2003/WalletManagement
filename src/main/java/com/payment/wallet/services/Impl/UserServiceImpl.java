@@ -1,5 +1,11 @@
 package com.payment.wallet.services.Impl;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import com.payment.wallet.models.ESUserModel;
 import com.payment.wallet.models.UserModel;
 import com.payment.wallet.repositories.UserRepository;
@@ -7,7 +13,6 @@ import com.payment.wallet.services.KafkaProducerService;
 import com.payment.wallet.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -19,17 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.ReflectionUtils;
 
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.FuzzyQueryBuilder;
-import org.elasticsearch.index.query.RangeQueryBuilder;
-
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
-import org.springframework.data.elasticsearch.core.SearchHitSupport;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -37,10 +35,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import co.elastic.clients.json.JsonData;
-
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private ElasticsearchClient elasticsearchClient;
 
     private final UserRepository userRepository;
     private final KafkaProducerService kafkaProducerService;
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
         this.objectMapper = new ObjectMapper();
     }
 
-    
+
 
     public ResponseEntity<?> getAllUsers(){
         try {
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
         } catch(DataAccessException e){
             logger.error("Databse access error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Database access error");
-        } 
+        }
         catch (Exception e) {
             logger.error("Unexpected error while fetching users: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error while fetching users");
@@ -161,7 +160,7 @@ public class UserServiceImpl implements UserService {
             UserModel updatedUser = userRepository.save(user);
             logger.info("User updated successfully with ID: {}", updatedUser.getWalletId());
             return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
-            
+
         } catch (Exception e) {
             logger.error("Unexpected error while updating user: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error while updating user");
@@ -184,41 +183,39 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public List<ESUserModel> fuzzySearch(Long walletId, String phone, Double balance, int page, int size) {
+    public List<ESUserModel> fuzzySearch(String phone,int page, int size) {
         try {
-            BoolQuery.Builder boolQuery = new BoolQuery.Builder();
-
-//            // WalletId must be an exact match
-//            boolQuery.filter(q -> q.term(t -> t.field("walletId").value(walletId)));
-
+            if(phone==null || phone.isEmpty()){
+                throw new IllegalArgumentException("Phone number cannot be null or empty");
+            }
             // Fuzzy search for phone number
-            if (phone != null && !phone.isEmpty()) {
-                boolQuery.must(q -> q.fuzzy(f -> f.field("userPhone").value(phone).fuzziness("AUTO")));
-            }
+            Query wildcardQuery = Query.of(q-> q
+                    .wildcard(w-> w
+                            .field("userPhone")
+                            .value("*" + phone + "*")
+                    )
+            );
 
-            // Balance range query
-            if (balance != null) {
-                boolQuery.must(q -> q.range(r -> r.field("balance")
-                        .gte(JsonData.of(balance - 100))
-                        .lte(JsonData.of(balance + 100))));
-            }
+            // execute the query
+            SearchResponse<ESUserModel> searchResponse = elasticsearchClient.search(s-> s
+                    .index("users_idx")
+                    .query(wildcardQuery)
+                    .from(page*size)
+                    .size(size),
+                    ESUserModel.class
+            );
 
-            NativeQuery searchQuery = NativeQuery.builder()
-                    .withQuery(boolQuery.build()._toQuery())
-                    .withPageable(PageRequest.of(page, size))
-                    .build();
+            // total hits
+            TotalHits totalHits = searchResponse.hits().total();
+            logger.info("total hits:", totalHits.value());
 
-            SearchHits<ESUserModel> searchHits = elasticsearchTemplate.search(searchQuery, ESUserModel.class);
-
-            return elasticsearchTemplate.search(searchQuery, ESUserModel.class)
-                    .getSearchHits()
-                    .stream()
-                    .map(hit -> hit.getContent())
+            return searchResponse.hits().hits().stream()
+                    .map(Hit::source)
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
             logger.error("Error during fuzzy search: {}", e.getMessage());
-            throw e;
+            throw new RuntimeException("Error during fuzzy search: " + e.getMessage());
         }
     }
 

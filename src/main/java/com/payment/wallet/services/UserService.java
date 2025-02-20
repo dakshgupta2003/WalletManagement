@@ -16,5 +16,5 @@ public interface UserService {
     UserModel addUser(UserModel user);
     ResponseEntity<?> updateUser(Long walletId, Map<String, Object> fieldMap);
     ResponseEntity<?> deleteUser(Long walletId);
-    List<ESUserModel> fuzzySearch(Long walletId, String phone, Double balance, int page, int size);
+    List<ESUserModel> fuzzySearch(String phone, int page, int size);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -18,17 +19,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
+    @GetMapping("/get-all-users")
     public ResponseEntity<?> getAllUsers(){
         return this.userService.getAllUsers();
     }
 
-    @GetMapping("/{walletId}")
+    @GetMapping("/get-single-user/{walletId}")
     public ResponseEntity<?> getSingleUser(@PathVariable Long walletId){
         return this.userService.getSingleUser(walletId);
     }
 
-    @PostMapping
+    @PostMapping("/create-user")
     public ResponseEntity<?> addUser(@RequestBody UserModel userModel) {
         try {
             UserModel savedUser = this.userService.addUser(userModel);
@@ -40,25 +41,23 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{walletId}")
+    @PatchMapping("/update-user/{walletId}")
     public ResponseEntity<?> updateUser(@PathVariable Long walletId, @RequestBody Map<String, Object> fieldMap){
             return this.userService.updateUser(walletId, fieldMap);
     }
 
-    @DeleteMapping("/{walletId}")
+    @DeleteMapping("/delete-user/{walletId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long walletId){
         return this.userService.deleteUser(walletId);
     }
 
-    @GetMapping("/fuzzy/{walletId}")
+    @GetMapping("/fuzzy-search")
     public List<ESUserModel> fuzzySearch(
-            @PathVariable Long walletId,
             @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Double balance,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ){
-        return this.userService.fuzzySearch(walletId, phone, balance, page, size);
+        return this.userService.fuzzySearch(phone, page, size);
     }
 
 }
