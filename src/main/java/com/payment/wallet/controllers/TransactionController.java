@@ -20,6 +20,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/transaction")
 public class TransactionController {
 
+    @Autowired
     private final TransactionService transactionService;
     private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
 

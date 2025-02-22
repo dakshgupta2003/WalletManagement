@@ -5,6 +5,8 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payment.wallet.models.ESTransactionModel;
 import com.payment.wallet.models.ESUserModel;
+import com.payment.wallet.models.TransactionModel;
+import com.payment.wallet.utils.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +51,25 @@ public class KafkaConsumerService {
     }
 
     @KafkaListener(topics = "fund-transfer-processed", groupId = "transaction-group")
-    public void transactionConsumeInES(String transactionJson){
+    public void transactionConsumeInES(String transactionJson) {
         try {
-            ESTransactionModel esTransactionModel = objectMapper.readValue(transactionJson, ESTransactionModel.class);
+            // First deserialize to TransactionModel
+            TransactionModel transactionModel = objectMapper.readValue(transactionJson, TransactionModel.class);
+            
+            // Convert to ESTransactionModel with formatted timestamp
+            ESTransactionModel esTransactionModel = new ESTransactionModel();
+            esTransactionModel.setTxnId(transactionModel.getTxnId());
+            esTransactionModel.setAmount(transactionModel.getAmount());
+            esTransactionModel.setPayerWalletId(transactionModel.getPayerWalletId());
+            esTransactionModel.setPayeeWalletId(transactionModel.getPayeeWalletId());
+            esTransactionModel.setStatus(transactionModel.getStatus());
+            esTransactionModel.setTimeStamp(DateTimeUtils.formatDateTime(transactionModel.getTimeStamp()));
+            
             saveTransactionToES(esTransactionModel);
-            logger.info("Transaction saved in ES: " + transactionJson);
-        } catch (Exception e){
+            logger.info("Transaction saved in ES: {}", esTransactionModel);
+        } catch (Exception e) {
+            logger.error("Error while saving transaction in ES: {}", e.getMessage());
             e.printStackTrace();
-            logger.error("Error while saving transaction in ES: " + e.getMessage());
         }
     }
 

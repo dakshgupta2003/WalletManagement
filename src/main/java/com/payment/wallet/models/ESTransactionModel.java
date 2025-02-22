@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Data
 @AllArgsConstructor
@@ -33,6 +32,7 @@ public class ESTransactionModel {
     @Field(type = FieldType.Keyword)
     private StatusEnum status;
 
-    @Field(type = FieldType.Date)
-    private LocalDateTime timeStamp;
+    @Field(type = FieldType.Keyword)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private String timeStamp;
 }
