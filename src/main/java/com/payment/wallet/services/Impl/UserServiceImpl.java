@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
         } catch (Exception e) {
             logger.error("Unexpected error while deleting user: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error while deleting user");
         }
     }
 
